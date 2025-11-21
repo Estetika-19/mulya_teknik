@@ -1,6 +1,7 @@
 import mysql from "mysql2/promise";
 import fs from "fs";
 import path from "path";
+import * as React from 'react'
 
 const dbConfig = {
   host: "localhost",
@@ -9,51 +10,58 @@ const dbConfig = {
   database: "mulya_teknik",
 };
 
-// ---------------------------------------------------
-// GET DETAIL
-// ---------------------------------------------------
-export async function GET(req, { params }) {
+// =========================
+// GET DETAIL BY ID
+// =========================
+export async function GET(req, context) {
+  const { id } = context.params; // ❗ tidak perlu await
+
   const conn = await mysql.createConnection(dbConfig);
-  const [rows] = await conn.query("SELECT * FROM portofolio WHERE id = ?", [
-    params.id,
-  ]);
+  const [rows] = await conn.query("SELECT * FROM portofolio WHERE id = ?", [id]);
   await conn.end();
 
   return Response.json(rows[0] || {});
 }
 
-// ---------------------------------------------------
-// UPDATE
-// ---------------------------------------------------
-export async function PUT(req, { params }) {
-  const id = params.id;
-  const formData = await req.formData();
+// =========================
+// UPDATE ARTICLE
+// =========================
+export async function PUT(req, context) {
+  const { id } = context.params;
 
+  const formData = await req.formData();
   const title = formData.get("title");
   const description = formData.get("description");
   const product = formData.get("product");
   const location = formData.get("location");
   const imageFile = formData.get("image");
-  const currentImage = formData.get("current_image");
+
+  // --- Ambil image sebelumnya ---
+  const conn = await mysql.createConnection(dbConfig);
+  const [oldRows] = await conn.query(
+    "SELECT image_path FROM portofolio WHERE id = ?",
+    [id]
+  );
+
+  const currentImage = oldRows[0]?.image_path || "";
 
   let imageUrl = currentImage;
 
-  // jika upload baru
-  if (imageFile && typeof imageFile === "object" && imageFile.size > 0) {
-    const uploadsDir = path.join(process.cwd(), "/public/uploads");
-    if (!fs.existsSync(uploadsDir))
-      fs.mkdirSync(uploadsDir, { recursive: true });
+  // --- Jika ada file baru, upload ---
+  if (imageFile && typeof imageFile.name === "string" && imageFile.size > 0) {
+    const uploadsDir = path.join(process.cwd(), "public/uploads");
+    if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
-    const newFileName = `${Date.now()}_${imageFile.name}`;
-    const filePath = path.join(uploadsDir, newFileName);
+    const fileName = Date.now() + "_" + imageFile.name;
+    const filePath = path.join(uploadsDir, fileName);
 
-    const arrayBuffer = await imageFile.arrayBuffer();
-    fs.writeFileSync(filePath, Buffer.from(arrayBuffer));
+    const buffer = Buffer.from(await imageFile.arrayBuffer());
+    fs.writeFileSync(filePath, buffer);
 
-    imageUrl = `/uploads/${newFileName}`;
+    imageUrl = `/uploads/${fileName}`;
   }
 
-  const conn = await mysql.createConnection(dbConfig);
+  // --- Update database ---
   await conn.query(
     "UPDATE portofolio SET title=?, description=?, product=?, location=?, image_path=? WHERE id=?",
     [title, description, product, location, imageUrl, id]
@@ -63,11 +71,11 @@ export async function PUT(req, { params }) {
   return Response.json({ success: true });
 }
 
-// ---------------------------------------------------
-// DELETE
-// ---------------------------------------------------
-export async function DELETE(req, { params }) {
-  const { id } = await params;  // <= FIX PENTING
+// =========================
+// DELETE ARTICLE
+// =========================
+export async function DELETE(req, context) {
+  const { id } = context.params;
 
   const conn = await mysql.createConnection(dbConfig);
   await conn.query("DELETE FROM portofolio WHERE id = ?", [id]);

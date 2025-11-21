@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise";
+import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
@@ -9,13 +10,13 @@ const dbConfig = {
   database: "mulya_teknik",
 };
 
+// GET semua data
 export async function GET() {
   const conn = await mysql.createConnection(dbConfig);
-  const [rows] = await conn.query("SELECT * FROM portofolio ORDER BY created_at DESC");
+  const [rows] = await conn.query("SELECT * FROM portofolio");
   await conn.end();
-  return new Response(JSON.stringify({ data: rows }), {
-    status: 200,
-  });
+
+  return NextResponse.json({ data: rows });
 }
 
 export async function POST(req) {

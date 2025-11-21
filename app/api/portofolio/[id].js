@@ -12,15 +12,16 @@ const dbConfig = {
 // ---------------------------------------------------
 // GET DETAIL
 // ---------------------------------------------------
-export async function GET(req, { params }) {
+export async function GET(req) {
+  const id = req.url.split("/").pop(); // aman tanpa params
+
   const conn = await mysql.createConnection(dbConfig);
-  const [rows] = await conn.query("SELECT * FROM portofolio WHERE id = ?", [
-    params.id,
-  ]);
+  const [rows] = await conn.query("SELECT * FROM portofolio WHERE id = ?", [id]);
   await conn.end();
 
-  return Response.json(rows[0] || {});
+  return NextResponse.json(rows[0] || {});
 }
+
 
 // ---------------------------------------------------
 // UPDATE

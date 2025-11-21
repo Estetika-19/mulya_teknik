@@ -1,0 +1,41 @@
+import mysql from "mysql2/promise";
+
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "mulya_teknik",
+});
+
+// CREATE TABLE otomatis
+async function init() {
+  const connection = await pool.getConnection();
+
+  // PORTOFOLIO TABLE
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS portofolio (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      image_path VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // ARTICLES TABLE
+  await connection.query(`
+    CREATE TABLE IF NOT EXISTS articles (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      content TEXT NOT NULL,
+      image_path VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  connection.release();
+}
+
+init();
+
+export default pool;
