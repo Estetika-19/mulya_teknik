@@ -1,0 +1,37 @@
+/* app/components/Navbar.module.css */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2563eb;
+  padding: 1rem;
+  color: white;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.navLink {
+  text-decoration: none;
+  color: white;
+  transition: opacity 0.2s ease;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
