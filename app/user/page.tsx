@@ -3,7 +3,8 @@ import WhyUs from "./components/why_us";
 import TrustedBy from "./components/trustedby";
 import Profil_Company from "./components/profil";
 import Services from "./components/services";
-import Portofolio from "./components/portofolio";
+import PortofolioServer from "./components/portofolio-server";
+// import Portofolio from "./components/portofolio";
 import ArticlesSection from "./components/article";
 import CTASection from "./components/cta";
 
@@ -16,7 +17,8 @@ export default function Home() {
       <TrustedBy />
       <Profil_Company />
       <Services/>
-      <Portofolio/>
+      <PortofolioServer/>
+      {/* <Portofolio/> */}
       <ArticlesSection/>
       <CTASection/>
     </>

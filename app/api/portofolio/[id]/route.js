@@ -14,7 +14,7 @@ const dbConfig = {
 // GET DETAIL BY ID
 // =========================
 export async function GET(req, context) {
-  const { id } = context.params; // ❗ tidak perlu await
+  const { id } = (await context.params); // ❗ tidak perlu await
 
   const conn = await mysql.createConnection(dbConfig);
   const [rows] = await conn.query("SELECT * FROM portofolio WHERE id = ?", [id]);
@@ -27,7 +27,7 @@ export async function GET(req, context) {
 // UPDATE ARTICLE
 // =========================
 export async function PUT(req, context) {
-  const { id } = context.params;
+  const { id } = (await context.params);
 
   const formData = await req.formData();
   const title = formData.get("title");
@@ -75,7 +75,7 @@ export async function PUT(req, context) {
 // DELETE ARTICLE
 // =========================
 export async function DELETE(req, context) {
-  const { id } = context.params;
+  const { id } = (await context.params);
 
   const conn = await mysql.createConnection(dbConfig);
   await conn.query("DELETE FROM portofolio WHERE id = ?", [id]);

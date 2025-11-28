@@ -1,4 +1,5 @@
-export default async function PortofolioDetail({ params }) {
+export default async function PortofolioDetail(props) {
+  const params = await props.params;
   const id = params.id; // aman di page.js
 
   const res = await fetch(

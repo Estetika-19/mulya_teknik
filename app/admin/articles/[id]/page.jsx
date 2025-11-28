@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 
-export default function EditArticles({ params }) {
+export default function EditArticles(props) {
+  const params = use(props.params);
   const router = useRouter();
   const { id } = params;
 
