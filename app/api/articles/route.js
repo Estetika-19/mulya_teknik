@@ -14,7 +14,8 @@ export async function GET() {
   const conn = await mysql.createConnection(dbConfig);
   const [rows] = await conn.query("SELECT * FROM articles ORDER BY created_at DESC");
   await conn.end();
-  return new Response(JSON.stringify({ data: rows }), { status: 200 });
+
+  return Response.json({ data: rows });
 }
 
 export async function POST(req) {
