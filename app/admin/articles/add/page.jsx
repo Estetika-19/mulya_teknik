@@ -15,7 +15,7 @@ export default function AddArticles() {
     formData.append("content", content);
     if (image) formData.append("image", image);
 
-    const res = await fetch("/api/articles", { method: "POST", body: formData });
+    const res = await fetch("${process.env.URL}/api/articles", { method: "POST", body: formData });
     if (res.ok) router.push("/admin/dashboard");
   };
 

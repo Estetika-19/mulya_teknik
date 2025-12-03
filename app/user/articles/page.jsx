@@ -9,7 +9,7 @@ export default function ArtikelPage() {
   useEffect(() => {
     const getArticles = async () => {
       try {
-        const res = await fetch("/api/articles");
+        const res = await fetch("${process.env.URL}/api/articles");
         const json = await res.json();
         setArticles(json.data);
       } catch (err) {

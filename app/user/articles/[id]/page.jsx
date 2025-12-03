@@ -2,7 +2,7 @@ export default async function ArtikelDetail(props) {
   const params = await props.params;
   const id = params.id;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/articles/${id}`, {
+  const res = await fetch(`${process.env.URL}api/articles/${id}`, {
     cache: "no-store",
   });
 

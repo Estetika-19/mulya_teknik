@@ -1,7 +1,7 @@
 import PortofolioSection from "./portofolio";
 
 export default async function PortofolioServer() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/portofolio`, {
+  const res = await fetch(`${process.env.URL}api/portofolio`, {
     cache: "no-store",
   });
 

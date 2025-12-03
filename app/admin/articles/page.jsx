@@ -15,7 +15,7 @@ export default function AdminDashboard() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/articles");
+      const res = await fetch("${process.env.URL}/api/articles");
       const data = await res.json();
       setArticles(data.data || []);
     } catch (err) {
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
 
   async function deleteArticles(id) {
     if (!confirm("Yakin ingin menghapus artikel ini?")) return;
-    await fetch(`/api/articles/${id}`, { method: "DELETE" });
+    await fetch(`${process.env.URL}/api/articles/${id}`, { method: "DELETE" });
     fetchArticles();
   }
 

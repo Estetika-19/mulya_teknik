@@ -37,7 +37,7 @@ export default function EditArticles(props) {
     if (newImage) formData.append("image", newImage);
     else formData.append("current_image", form.image);
 
-    const res = await fetch(`/api/articles/${id}`, {
+    const res = await fetch(`${process.env.URL}/api/articles/${id}`, {
       method: "PUT",
       body: formData,
     });
@@ -46,7 +46,7 @@ export default function EditArticles(props) {
   };
 
   const deleteData = async () => {
-    await fetch(`/api/articles/${id}`, { method: "DELETE" });
+    await fetch(`${process.env.URL}/api/articles/${id}`, { method: "DELETE" });
     router.push("/admin/dashboard");
   };
 
