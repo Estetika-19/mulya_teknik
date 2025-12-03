@@ -10,61 +10,58 @@ export default function AdminLoginPage() {
   const router = useRouter();
 
   async function handleLogin() {
-  const res = await fetch("/api/admin/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // penting supaya cookie tersimpan
+        body: JSON.stringify({ username, password }),
+      });
 
-  const data = await res.json();
+      const data = await res.json();
+      console.log("Login response:", data);
 
-  if (!data.success) {
-    setErrorMsg(data.error);
-    return;
+      if (!data.success) {
+        setErrorMsg(data.error || "Login failed");
+        return;
+      }
+
+      // Redirect ke dashboard
+      router.push("/admin/dashboard");
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("Server error, try again");
+    }
   }
 
-  router.push("/admin/dashboard");
-}
-
   return (
-    <div className="min-h-screen w-full bg-white flex justify-center items-center">
-      <div className="w-[722px] h-[720px] bg-white rounded-2xl flex flex-col justify-center items-center gap-11 p-6 shadow">
-        
-        <img className="w-64 h-48 object-contain" src="https://placehold.co/249x192" />
+    <div className="min-h-screen flex justify-center items-center bg-white">
+      <div className="w-[500px] p-6 shadow rounded-xl flex flex-col gap-6">
+        <h1 className="text-2xl font-bold">Admin Login</h1>
 
-        {/* Username */}
-        <div className="w-[526px] h-16 p-2.5 bg-white rounded-xl outline outline-[3px] outline-offset-[-3px] outline-cyan-900 flex items-center gap-3">
-          <input
-            type="text"
-            placeholder="USERNAME"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full text-xl font-montserrat outline-none bg-transparent"
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="border p-2 rounded w-full"
+        />
 
-        {/* Password */}
-        <div className="w-[526px] h-16 p-2.5 bg-white rounded-xl outline outline-[3px] outline-offset-[-3px] outline-cyan-900 flex items-center gap-3">
-          <input
-            type="password"
-            placeholder="PASSWORD"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full text-xl font-montserrat outline-none bg-transparent"
-          />
-        </div>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="border p-2 rounded w-full"
+        />
 
-        {errorMsg && (
-          <p className="text-red-600 font-montserrat">{errorMsg}</p>
-        )}
+        {errorMsg && <p className="text-red-600">{errorMsg}</p>}
 
         <button
-          className="w-48 h-11 bg-cyan-900 rounded-lg flex justify-center items-center"
           onClick={handleLogin}
+          className="bg-cyan-900 text-white p-2 rounded"
         >
-          <span className="text-white text-base font-bold font-montserrat tracking-wide">
-            LOGIN
-          </span>
+          Login
         </button>
       </div>
     </div>

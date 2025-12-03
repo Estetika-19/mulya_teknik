@@ -1,58 +1,46 @@
 import pool from "@/lib/dbConfig";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function POST(req) {
-  try {
-    const { username, password } = await req.json();
+  const { username, password } = await req.json();
 
-    const [rows] = await pool.execute(
-      "SELECT * FROM admin WHERE username = ?",
-      [username]
-    );
+  // cek user
+  const [rows] = await pool.execute(
+    "SELECT * FROM admin WHERE username = ?",
+    [username]
+  );
 
-    if (rows.length === 0) {
-      return NextResponse.json(
-        { success: false, error: "Invalid username" },
-        { status: 400 }
-      );
-    }
-
-    const user = rows[0];
-
-    const valid = await bcrypt.compare(password, user.password_hash);
-    if (!valid) {
-      return NextResponse.json(
-        { success: false, error: "Invalid password" },
-        { status: 400 }
-      );
-    }
-
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    const response = NextResponse.json({
-      success: true,
-      message: "Login success",
-    });
-
-    response.cookies.set("auth", token, {
-      httpOnly: true,
-      secure: false, // wajib false di localhost
-      path: "/",
-      maxAge: 60 * 60 * 24,
-    });
-
-    return response;
-  } catch (e) {
-    console.error(e);
-    return NextResponse.json(
-      { success: false, error: "Server error" },
-      { status: 500 }
-    );
+  if (rows.length === 0) {
+    return NextResponse.json({ success: false, error: "Invalid username" }, { status: 400 });
   }
+
+  const user = rows[0];
+
+  // cek password
+  const valid = await bcrypt.compare(password, user.password_hash);
+  if (!valid) {
+    return NextResponse.json({ success: false, error: "Invalid password" }, { status: 400 });
+  }
+
+  // generate JWT pakai jose
+  const token = await new SignJWT({ id: user.id, username: user.username })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("1d")
+    .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+
+  // response + set cookie
+  const response = NextResponse.json({ success: true, message: "Login success" });
+  response.cookies.set("admin_token", token, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60*60*24,
+  });
+
+  return response;
 }

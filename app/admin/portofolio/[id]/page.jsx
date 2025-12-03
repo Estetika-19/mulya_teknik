@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState, use } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
-export default function EditPortfolio(props) {
-  const params = use(props.params);
+export default function EditPortfolio() {
   const router = useRouter();
-  const { id } = params;
+  const pathname = usePathname();
+  const id = pathname.split("/").pop(); // ambil ID dari URL
 
   const [form, setForm] = useState({
     title: "",
@@ -17,42 +17,53 @@ export default function EditPortfolio(props) {
 
   const [newImage, setNewImage] = useState(null);
 
+  // session check
   useEffect(() => {
-    fetch(`/api/portofolio/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setForm({
-          title: data.title || "",
-          description: data.description || "",
-          product: data.product || "",
-          location: data.location || "",
-          image: data.image || ""
-        });
+    async function checkSession() {
+      try {
+        const res = await fetch("/api/admin/check", { cache: "no-store", credentials: "include" });
+        const data = await res.json();
+        if (!data.auth) router.push("/admin/login");
+      } catch {
+        router.push("/admin/login");
+      }
+    }
+    checkSession();
+  }, []);
+
+  // fetch data portfolio
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(`/api/portofolio/${id}`);
+      const data = await res.json();
+      setForm({
+        title: data.title || "",
+        description: data.description || "",
+        product: data.product || "",
+        location: data.location || "",
+        image: data.image_path || ""
       });
+    }
+    fetchData();
   }, [id]);
 
   const updateData = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("title", form.title);
     formData.append("description", form.description);
     formData.append("product", form.product);
     formData.append("location", form.location);
-
     if (newImage) formData.append("image", newImage);
     else formData.append("current_image", form.image);
 
-    const res = await fetch(`/api/portofolio/${id}`, {
-      method: "PUT",
-      body: formData,
-    });
-
+    const res = await fetch(`/api/portofolio/${id}`, { method: "PUT", body: formData, credentials: "include" });
     if (res.ok) router.push("/admin/dashboard");
   };
 
   const deleteData = async () => {
-    await fetch(`/api/portofolio/${id}`, { method: "DELETE" });
+    if (!confirm("Yakin ingin menghapus portofolio ini?")) return;
+    await fetch(`/api/portofolio/${id}`, { method: "DELETE", credentials: "include" });
     router.push("/admin/dashboard");
   };
 
@@ -113,10 +124,7 @@ export default function EditPortfolio(props) {
         className="border mb-3"
       />
 
-      <button className="px-4 py-2 bg-green-600 text-white rounded">
-        Update
-      </button>
-
+      <button className="px-4 py-2 bg-green-600 text-white rounded">Update</button>
       <button
         type="button"
         className="px-4 py-2 bg-red-600 text-white rounded ml-3"

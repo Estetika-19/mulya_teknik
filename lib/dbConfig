@@ -1,11 +1,15 @@
 import mysql from "mysql2/promise";
 
 const pool = mysql.createPool({
-  host: "localhost",
+  host: "shortline.proxy.rlwy.net",
+  port: 56155,
   user: "root",
-  password: "",
-  database: "mulya_teknik",
+  password: "plSEUxaJkVVVaqjeLowtlBbOTKyqcaUQ",
+  database: "railway",
 });
+
+export default pool;
+
 
 // CREATE TABLE otomatis
 async function init() {
@@ -38,4 +42,4 @@ async function init() {
 
 init();
 
-export default pool;
+

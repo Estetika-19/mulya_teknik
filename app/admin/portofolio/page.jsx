@@ -9,7 +9,26 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => { fetchPortfolios(); }, []);
+  useEffect(() => {
+    async function checkSessionAndFetch() {
+      try {
+        // Cek session admin
+        const res = await fetch("/api/admin/check", { cache: "no-store", credentials: "include" });
+        const data = await res.json();
+        if (!data.auth) {
+          router.push("/admin/login");
+          return;
+        }
+        // Jika session valid, fetch data portofolio
+        fetchPortfolios();
+      } catch (err) {
+        console.error(err);
+        router.push("/admin/login");
+      }
+    }
+
+    checkSessionAndFetch();
+  }, []);
 
   async function fetchPortfolios() {
     setLoading(true);
@@ -19,6 +38,7 @@ export default function AdminDashboard() {
       const data = await res.json();
       setPortfolios(data.data || []);
     } catch (err) {
+      console.error(err);
       setError("Gagal mengambil data portofolio.");
     } finally {
       setLoading(false);
@@ -69,7 +89,7 @@ export default function AdminDashboard() {
           <div className="truncate">{item.description}</div>
           <div>{item.product}</div>
           <div>{item.location}</div>
-          <div>{new Date(item.created_at).toLocaleDateString()}</div>
+          <div>{new Date(item.created_at).toLocaleDateString("id-ID")}</div>
 
           <div className="flex gap-2">
             <button

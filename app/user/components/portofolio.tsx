@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 export default function PortofolioSection({ items = [] }) {
-  // Ambil hanya 4 item terbaru
   const latestItems = items.slice(0, 4);
 
   return (

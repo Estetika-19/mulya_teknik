@@ -50,7 +50,7 @@ export default function AdminDashboard() {
         <span>Action</span>
       </div>
 
-      {portfolios.map(item => (
+      {articles.map(item => (
         <div key={item.id} className="grid grid-cols-5 py-2 items-center border-b">
           <img src={item.image_url || "/no-image.png"} className="w-32 h-24 object-cover rounded" />
           <div>{item.title}</div>
