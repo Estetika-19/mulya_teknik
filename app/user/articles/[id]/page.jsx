@@ -2,7 +2,7 @@ export default async function ArtikelDetail(props) {
   const params = await props.params;
   const id = params.id;
 
-  const res = await fetch(`${process.env.URL}api/articles/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}api/articles/${id}`, {
     cache: "no-store",
   });
 
@@ -13,7 +13,7 @@ export default async function ArtikelDetail(props) {
 
       {/* TITLE */}
       <div className="w-full bg-white">
-        <h1 className="text-cyan-900 text-4xl md:text-5xl font-bold font-montserrat">
+        <h1 className="text-cyan-900 text-4xl md:text-5xl font-bold font-[Montserrat]">
           {article.title}
         </h1>
       </div>

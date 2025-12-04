@@ -8,7 +8,7 @@ type Article = {
 };
 
 export default async function ArticlesSection() {
-  const res = await fetch(`${process.env.URL}/api/articles`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/articles`, {
     cache: "no-store",
   });
 

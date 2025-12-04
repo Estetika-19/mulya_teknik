@@ -6,9 +6,22 @@ export default function PortofolioPage() {
   const [filterProduct, setFilterProduct] = useState("");
 
   useEffect(() => {
-    fetch("/api/portofolio")
-      .then((res) => res.json())
-      .then((data) => setItems(data.data));
+    const load = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/portofolio`, {
+          cache: "no-store",
+        });
+
+        const json = await res.json();
+        const data = Array.isArray(json) ? json : json.data ?? [];
+
+        setItems(data);
+      } catch (err) {
+        console.error("Failed to fetch portofolio", err);
+      }
+    };
+
+    load();
   }, []);
 
   const filteredItems = items.filter((item) =>
@@ -17,6 +30,7 @@ export default function PortofolioPage() {
 
   return (
     <div className="w-full bg-white flex flex-col items-start gap-20 overflow-hidden">
+      
       {/* Navbar */}
       <header className="w-full flex justify-between items-center px-8 py-4 bg-white shadow-sm">
         <img src="https://placehold.co/102x102" alt="Logo" width={80} height={80} />

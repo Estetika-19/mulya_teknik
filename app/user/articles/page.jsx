@@ -5,11 +5,12 @@ import Link from "next/link";
 
 export default function ArtikelPage() {
   const [articles, setArticles] = useState([]);
+  console.log("ENV:", process.env.NEXT_PUBLIC_API);
 
   useEffect(() => {
     const getArticles = async () => {
       try {
-        const res = await fetch("${process.env.URL}/api/articles");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/articles`);
         const json = await res.json();
         setArticles(json.data);
       } catch (err) {
