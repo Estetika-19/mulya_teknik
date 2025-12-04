@@ -10,21 +10,19 @@ const dbConfig = {
   database: process.env.DB_NAME,
 };
 
-// GET ARTICLE BY ID
 export async function GET(req, context) {
-  const { id } = await context.params;
+  const { id } = context.params; 
 
   const conn = await mysql.createConnection(dbConfig);
   const [rows] = await conn.query("SELECT * FROM articles WHERE id = ?", [id]);
   await conn.end();
 
-  return Response.json(rows[0] || {});
+  return new Response(JSON.stringify(rows[0] || {}), { status: 200 });
 }
 
-// UPDATE ARTICLE
-export async function PUT(req, context) {
-  const { id } = await context.params;
-
+// PUT / UPDATE
+export async function PUT(req, { params }) {
+  const { id } = params;
   const formData = await req.formData();
   const title = formData.get("title");
   const content = formData.get("content");
@@ -33,13 +31,12 @@ export async function PUT(req, context) {
 
   let imageUrl = currentImage || "";
 
-  if (imageFile && imageFile.name) {
+  if (imageFile && imageFile.size > 0) {
     const uploadsDir = path.join(process.cwd(), "public/uploads");
     if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
-    const fileName = Date.now() + "_" + imageFile.name;
+    const fileName = `${Date.now()}_${imageFile.name}`;
     const filePath = path.join(uploadsDir, fileName);
-
     const buffer = Buffer.from(await imageFile.arrayBuffer());
     fs.writeFileSync(filePath, buffer);
 
@@ -47,22 +44,20 @@ export async function PUT(req, context) {
   }
 
   const conn = await mysql.createConnection(dbConfig);
-  await conn.query(
-    "UPDATE articles SET title=?, content=?, image_path=? WHERE id=?",
-    [title, content, imageUrl, id]
-  );
+  await conn.query("UPDATE articles SET title=?, content=?, image_path=? WHERE id=?", [
+    title, content, imageUrl, id
+  ]);
   await conn.end();
 
-  return Response.json({ success: true });
+  return new Response(JSON.stringify({ success: true }), { status: 200 });
 }
 
-// DELETE ARTICLE
-export async function DELETE(req, context) {
-  const { id } = await context.params;
-
+// DELETE
+export async function DELETE(req, { params }) {
+  const { id } = params;
   const conn = await mysql.createConnection(dbConfig);
-  await conn.query("DELETE FROM articles WHERE id = ?", [id]);
+  await conn.query("DELETE FROM articles WHERE id=?", [id]);
   await conn.end();
 
-  return Response.json({ success: true });
+  return new Response(JSON.stringify({ success: true }), { status: 200 });
 }

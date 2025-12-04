@@ -15,26 +15,26 @@ export async function GET() {
   const [rows] = await conn.query("SELECT * FROM articles ORDER BY created_at DESC");
   await conn.end();
 
-  return Response.json({ data: rows });
+  return new Response(JSON.stringify({ data: rows }), { status: 200 });
 }
 
 export async function POST(req) {
   const formData = await req.formData();
   const title = formData.get("title");
   const content = formData.get("content");
-  const imageFile = formData.get("image"); // File object
+  const imageFile = formData.get("image");
 
   let imageUrl = "";
 
   if (imageFile && imageFile.size > 0) {
-    const uploadsDir = path.join(process.cwd(), "/public/uploads");
+    const uploadsDir = path.join(process.cwd(), "public/uploads");
     if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
     const fileName = `${Date.now()}_${imageFile.name}`;
     const filePath = path.join(uploadsDir, fileName);
 
-    const arrayBuffer = await imageFile.arrayBuffer();
-    fs.writeFileSync(filePath, Buffer.from(arrayBuffer));
+    const buffer = Buffer.from(await imageFile.arrayBuffer());
+    fs.writeFileSync(filePath, buffer);
 
     imageUrl = `/uploads/${fileName}`;
   }

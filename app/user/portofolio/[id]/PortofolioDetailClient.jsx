@@ -30,10 +30,17 @@ export default function PortofolioDetailClient({ id }) {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
-      <img src={data.image_path} alt={data.title} className="w-full max-w-xl mb-4" />
-      <p className="text-gray-700">{data.description}</p>
+    <div className="pt-32 p-10 flex flex-col items-center">
+        <h1 className="text-4xl font-bold mb-6 text-center">{data.title}</h1>
+
+        <img
+            src={data.image_path}
+            alt={data.title}
+            className="w-full max-w-4xl h-auto rounded-lg mb-6 shadow-lg"
+        />
+
+        <p className="text-gray-700 text-lg max-w-3xl text-center">{data.description}</p>
     </div>
+
   );
 }
