@@ -9,12 +9,11 @@ export default function ProfilCompany() {
         {/* Kiri - Teks */}
         <div className="flex flex-col justify-center gap-4 sm:gap-6 w-full lg:w-1/2 text-white font-[Montserrat]">
           <h2 className="text-2xl sm:text-3xl font-medium leading-snug">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            Menghadirkan Konstruksi Berkualitas untuk Setiap Kebutuhan Anda
           </h2>
           <p className="text-base sm:text-xl font-normal leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            a tristique risus. Etiam sed tempor leo, sit amet ornare neque.
-            In ornare semper est, ac porttitor lacus scelerisque et.
+            Kami berkomitmen memberikan hasil terbaik melalui perencanaan matang, pengerjaan presisi, dan penggunaan material berkualitas. 
+            Setiap proyek kami tangani dengan detail, ketepatan waktu, serta pelayanan profesional yang dapat Anda percaya.
           </p>
 
           <Link

@@ -39,7 +39,7 @@
     "**/*.ts",
     "**/*.tsx",
     "app/admin/login/page.jsx"
-, "app/admin/dashboard/page.jsx", "app/admin/portofolio/page.jsx", "app/admin/articles/page.jsx", "app/user/portofolio/page.jsx", "app/user/portofolio/[id]/page.js", "app/user/articles/page.jsx", "app/user/articles/[id]/page.jsx"  ],
+, "app/admin/dashboard/page.jsx", "app/admin/portofolio/page.jsx", "app/admin/articles/page.jsx", "app/user/portofolio/page.jsx", "app/user/portofolio/[id]/page.js", "app/user/articles/page.jsx", "app/user/articles/[id]/page.jsx", "next.config.js"  ],
   "exclude": [
     "node_modules"
   ]

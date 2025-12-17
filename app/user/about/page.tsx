@@ -1,59 +1,70 @@
 export default function TentangKami() {
   return (
-    <div className="relative w-[1440px] h-[1580px] bg-white overflow-hidden mx-auto">
-      {/* 🔹 Gambar kiri */}
-      <div className="absolute top-[103px] left-0 w-[696px] h-[1086px] pl-14 pr-7 py-14 flex flex-col gap-14">
-        <div className="h-96 relative rounded-[19px] overflow-hidden">
-          <img
-            className="absolute w-[911px] h-[683px] left-[-56px] top-[-160px]"
-            src="https://placehold.co/911x683"
-            alt="Gambar 1"
-          />
-        </div>
-        <div className="h-96 relative rounded-[19px] overflow-hidden">
-          <img
-            className="absolute w-[692px] h-[923px] left-[-80px] top-[-330px]"
-            src="https://placehold.co/692x923"
-            alt="Gambar 2"
-          />
-        </div>
-      </div>
+    <div className="w-full bg-white px-6 lg:px-20 pt-40 pb-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-      {/* 🔹 Konten kanan */}
-      <div className="absolute top-[103px] left-[696px] w-[744px] h-[1062px] pl-7 pr-20 py-14 flex flex-col">
-        {/* Tentang Kami */}
-        <div className="relative h-96 mb-10">
-          <h2 className="absolute top-[28px] left-[30px] text-cyan-900 text-4xl font-bold font-['Montserrat']">
-            Tentang Kami
-          </h2>
-          <p className="absolute top-[108px] left-[36px] w-[567px] text-zinc-600 text-2xl font-medium font-['Montserrat'] leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a tristique risus. Etiam sed tempor leo,
-            sit amet ornare neque. In ornare semper est, ac porttitor lacus scelerisque et. Proin viverra auctor magna
-            non viverra. In varius diam arcu, placerat cursus nisi fermentum at. Praesent condimentum iaculis ante, sed
-            suscipit elit sodales in.
-          </p>
+        {/* Kolom Kiri - Gambar */}
+        <div className="flex flex-col gap-10">
+          <div className="rounded-2xl overflow-hidden h-96">
+            <img
+              src="/images/baja.jpg"
+              alt="Gambar 1"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="rounded-2xl overflow-hidden h-96">
+            <img
+              src="/images/sipil.jpg"
+              alt="Gambar 2"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
-        {/* Visi dan Misi */}
-        <div className="relative h-[547px]">
-          <h2 className="absolute top-[28px] left-[30px] text-cyan-900 text-4xl font-bold font-['Montserrat']">
-            Visi dan Misi
-          </h2>
-          <h3 className="absolute top-[108px] left-[36px] text-zinc-600 text-3xl font-semibold font-['Montserrat']">
-            Misi
-          </h3>
-          <p className="absolute top-[147px] left-[36px] w-[567px] text-zinc-600 text-2xl font-medium font-['Montserrat'] leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a tristique risus.
-          </p>
-          <h3 className="absolute top-[222px] left-[34px] text-zinc-600 text-3xl font-semibold font-['Montserrat']">
-            Visi
-          </h3>
-          <p className="absolute top-[261px] left-[34px] w-[567px] text-zinc-600 text-2xl font-medium font-['Montserrat'] leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a tristique risus. Etiam sed tempor leo,
-            sit amet ornare neque. In ornare semper est, ac porttitor lacus scelerisque et. Proin viverra auctor magna
-            non viverra. In varius diam arcu, placerat cursus nisi fermentum at. Praesent condimentum iaculis ante, sed
-            suscipit elit sodales in.
-          </p>
+        {/* Kolom Kanan - Konten */}
+        <div className="flex flex-col gap-14">
+
+          {/* Tentang Kami */}
+          <div>
+            <h2 className="text-cyan-900 text-4xl font-bold font-[Montserrat] mb-6">
+              Tentang Kami
+            </h2>
+            <p className="text-zinc-600 text-xl font-medium font-[Montserrat] leading-relaxed">
+              CV Mulya Teknik adalah perusahaan jasa kontraktor yang memiliki visi untuk 
+              menjadi yang unggul dan berkualitas di Indonesia. Kami berkomitmen untuk 
+              mempertahankan nilai usaha serta mencapai tujuan perusahaan melalui sinergi 
+              antara manajemen dan karyawan. Dalam menjalankan operasional, kami selalu 
+              mengedepankan prinsip kehati-hatian dalam setiap proses, mulai dari pemesanan, 
+              produksi, hingga instalasi.
+            </p>
+          </div>
+
+          {/* Visi & Misi */}
+          <div>
+            <h2 className="text-cyan-900 text-4xl font-bold font-[Montserrat] mb-6">
+              Visi dan Misi
+            </h2>
+
+            <h3 className="text-zinc-700 text-2xl font-semibold font-[Montserrat] mb-2">
+              Visi
+            </h3>
+            <p className="text-zinc-600 text-xl font-medium font-[Montserrat] leading-relaxed mb-6">
+              Menjadi perusahaan jasa kontraktor yang unggul dan berkualitas di Indonesia.
+            </p>
+
+            <h3 className="text-zinc-700 text-2xl font-semibold font-[Montserrat] mb-2">
+              Misi
+            </h3>
+            <ul className="text-zinc-600 text-xl font-medium font-[Montserrat] leading-relaxed list-decimal ml-6">
+              <li>Merespon interaksi pelanggan dengan cepat dan tepat.</li>
+              <li>Menyamakan pandangan antara manajemen dan karyawan.</li>
+              <li>Meningkatkan pemasaran, SDM, sistem operasional, dan teknologi.</li>
+              <li>Mengimplementasikan prinsip kehati-hatian dalam setiap proses.</li>
+              <li>Meningkatkan kompetensi melalui kerja sama dengan kontraktor daerah.</li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </div>

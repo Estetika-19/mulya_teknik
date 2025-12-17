@@ -18,7 +18,7 @@ export default function AddArticles() {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("content", content);
+      formData.append("content", content); 
       if (image) formData.append("image", image);
 
       const res = await fetch("/api/articles", {
@@ -29,7 +29,7 @@ export default function AddArticles() {
       if (!res.ok) throw new Error("Gagal menyimpan artikel");
 
       const data = await res.json();
-      router.push(`/user/articles/${data.id}`); // redirect ke detail
+      router.push(`/admin/articles/${data.id}`);
     } catch (err) {
       console.error(err);
       setError(err.message);
@@ -39,7 +39,10 @@ export default function AddArticles() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-10 flex flex-col gap-3 max-w-xl mx-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="p-10 flex flex-col gap-3 max-w-xl mx-auto"
+    >
       <h1 className="text-2xl font-bold mb-5">Tambah Artikel</h1>
 
       {error && <p className="text-red-600">{error}</p>}
@@ -51,18 +54,21 @@ export default function AddArticles() {
         required
         className="border p-2"
       />
+
       <input
         className="border p-2"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+
       <textarea
-        className="border p-2"
-        placeholder="Content"
+        className="border p-2 h-40"  
+        placeholder="Content artikel"
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
+
       <button
         type="submit"
         className="px-4 py-2 bg-cyan-700 text-white rounded"

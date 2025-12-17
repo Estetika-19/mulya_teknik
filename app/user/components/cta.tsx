@@ -21,13 +21,19 @@ export default function CTASection() {
 
       {/* Tombol Aksi */}
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-6 w-full sm:w-auto">
-        <button className="w-full sm:w-auto px-8 py-3 bg-cyan-900 text-white text-base font-bold font-[Montserrat] rounded-lg hover:bg-cyan-800 transition">
+        <a
+          href="https://wa.me/6281282345757"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full sm:w-auto px-8 py-3 bg-cyan-900 text-white text-base font-bold font-[Montserrat] rounded-lg hover:bg-cyan-800 transition text-center"
+        >
           Whatsapp
-        </button>
+        </a>
         <button className="w-full sm:w-auto px-8 py-3 bg-white text-cyan-900 text-base font-bold font-[Montserrat] rounded-lg border-2 border-cyan-900 hover:bg-cyan-50 transition">
           Lihat Layanan Kami
         </button>
       </div>
+
     </section>
   );
 }

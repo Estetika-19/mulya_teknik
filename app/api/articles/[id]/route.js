@@ -11,7 +11,7 @@ const dbConfig = {
 };
 
 export async function GET(req, context) {
-  const { id } = context.params; 
+  const { id } = (await context.params); 
 
   const conn = await mysql.createConnection(dbConfig);
   const [rows] = await conn.query("SELECT * FROM articles WHERE id = ?", [id]);
@@ -21,7 +21,8 @@ export async function GET(req, context) {
 }
 
 // PUT / UPDATE
-export async function PUT(req, { params }) {
+export async function PUT(req, props) {
+  const params = await props.params;
   const { id } = params;
   const formData = await req.formData();
   const title = formData.get("title");
@@ -53,7 +54,8 @@ export async function PUT(req, { params }) {
 }
 
 // DELETE
-export async function DELETE(req, { params }) {
+export async function DELETE(req, props) {
+  const params = await props.params;
   const { id } = params;
   const conn = await mysql.createConnection(dbConfig);
   await conn.query("DELETE FROM articles WHERE id=?", [id]);

@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 
 // Password asli
-const plainPassword = "admin1234";
+const plainPassword = "inipasswordharustahukalaugatahujugagapapa";
 
 // Buat hash dengan 10 salt rounds
 const hashedPassword = bcrypt.hashSync(plainPassword, 10);

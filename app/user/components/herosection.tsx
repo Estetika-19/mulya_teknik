@@ -8,9 +8,8 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-black/70" />
 
       {/* Content */}
-      <div className="w-full relative z-10 ... max-w-[900px] mx-auto">
+      <div className="w-full relative z-10 max-w-[900px] mx-auto">
 
-        
         {/* Heading */}
         <h1
           className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-semibold font-[Montserrat]
@@ -23,15 +22,13 @@ export default function HeroSection() {
           <span className="text-stone-50">Konstruksi dan Baja</span>
         </h1>
 
-        {/* Buttons */}
-        <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4">
-          <button className="w-full sm:w-64 h-11 bg-cyan-900 rounded-lg flex justify-center items-center hover:bg-cyan-800 transition">
-            <span className="text-white text-base font-bold font-[Montserrat] tracking-wide">
-              Pelajari Lebih Lanjut
-            </span>
-          </button>
+        {/* Sub-Heading baru */}
+        <p className="text-stone-200 text-base sm:text-lg md:text-xl font-[Montserrat] mt-6 leading-relaxed max-w-2xl"
+           style={{ textShadow: "2px 3px 4px rgba(0,0,0,0.25)" }}>
+          Dari perencanaan hingga pemasangan, kami hadir sebagai mitra terbaik
+          untuk kebutuhan konstruksi Anda.
+        </p>
 
-        </div>
       </div>
     </section>
   );

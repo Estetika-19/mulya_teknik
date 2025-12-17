@@ -15,7 +15,7 @@ export default function Navbar() {
     { name: "Layanan", path: "/user/service" },
     { name: "Artikel", path: "/user/articles" },
     { name: "Portofolio", path: "/user/portofolio" },
-    { name: "Kontak", path: "/contact" },
+    { name: "Kontak", path: "/user/contact" },
   ];
 
   return (
